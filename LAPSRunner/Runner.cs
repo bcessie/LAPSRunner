@@ -22,14 +22,21 @@ namespace LAPSRunner
 
         private void save_Click(object sender, EventArgs e)
         {
-            var result = _service.Add(GetImmediateItems());
-
-            if (!string.IsNullOrEmpty(result))
+            try
             {
-                MessageBox.Show(result, "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            }
+                var result = _service.Add(GetImmediateItems());
 
-            populateCache();
+                if (!string.IsNullOrEmpty(result))
+                {
+                    MessageBox.Show(result, "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+
+                populateCache();
+            } 
+            catch (Exception err) 
+            {
+                MessageBox.Show(err.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private List<AppInstance> GetImmediateItems()
@@ -39,14 +46,20 @@ namespace LAPSRunner
             foreach (var item in lstImmediate.Items)
             {
                 var lstItem = (ListViewItem)item;
-                var appInstance = new AppInstance()
-                {
-                    Id = Convert.ToInt32(lstItem.SubItems[0].Text),
-                    Name = lstItem.SubItems[1].Text,
-                    InstanceCount = Convert.ToInt32(lstItem.SubItems[2].Text),
-                    Path = lstItem.SubItems[3].Text
-                };
-                items.Add(appInstance);
+                items.Add(GetAppInstance(lstItem));
+            }
+
+            return items;
+        }
+
+        private List<AppInstance> GetCachedItems()
+        {
+            var items = new List<AppInstance>();
+
+            foreach (var item in lstCache.Items)
+            {
+                var lstItem = (ListViewItem)item;
+                items.Add(GetAppInstance(lstItem));
             }
 
             return items;
@@ -98,9 +111,9 @@ namespace LAPSRunner
             populateCache();
         }
 
-        private void btnRun_Click(object sender, EventArgs e)
+        private void btnRunAllCache_Click(object sender, EventArgs e)
         {
-            var items = _service.GetAll();
+            var items = GetCachedItems();
 
             RunAppInstances(items);
         }
@@ -183,7 +196,7 @@ namespace LAPSRunner
 
         private void shift_Click(object sender, EventArgs e)
         {
-            foreach (var item in lstCache.SelectedItems)
+            foreach (var item in lstCache.Items)
             {
                 var lstItem = (ListViewItem)item;
                 var clonedItem = (ListViewItem)lstItem.Clone();
@@ -225,7 +238,7 @@ namespace LAPSRunner
             this.WindowState = FormWindowState.Normal;
         }
 
-        private void btnRunImmediate_Click(object sender, EventArgs e)
+        private void btnRunAllImmediate_Click(object sender, EventArgs e)
         {
             var items = GetImmediateItems();
             RunAppInstances(items);
@@ -248,6 +261,84 @@ namespace LAPSRunner
                 {
                     column.Width = -2;
                 }
+            }
+        }
+
+        private void btnRunSelCache_Click(object sender, EventArgs e)
+        {
+            var items = new List<AppInstance>();
+
+            foreach (var item in lstCache.SelectedItems)
+            {
+                var lstItem = (ListViewItem)item;
+                items.Add(GetAppInstance(lstItem));
+            }
+
+            RunAppInstances(items);
+        }
+
+        private void btnRunSelImmediate_Click(object sender, EventArgs e)
+        {
+            var items = new List<AppInstance>();
+
+            foreach (var item in lstImmediate.SelectedItems)
+            {
+                var lstItem = (ListViewItem)item;
+                items.Add(GetAppInstance(lstItem));
+            }
+
+            RunAppInstances(items);
+        }
+
+        private AppInstance GetAppInstance(ListViewItem lstItem)
+        {
+            var appInstance = new AppInstance()
+            {
+                Id = Convert.ToInt32(lstItem.SubItems[0].Text),
+                Name = lstItem.SubItems[1].Text,
+                InstanceCount = Convert.ToInt32(lstItem.SubItems[2].Text),
+                Path = lstItem.SubItems[3].Text
+            };
+
+            return appInstance;
+        }
+
+        private void btnSelShift_Click(object sender, EventArgs e)
+        {
+            foreach (var item in lstCache.SelectedItems)
+            {
+                var lstItem = (ListViewItem)item;
+                var clonedItem = (ListViewItem)lstItem.Clone();
+                lstImmediate.Items.Add(clonedItem);
+            }
+
+            ResizeListViewColumns(lstImmediate);
+        }
+
+        private void btnSelSave_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                var items = new List<AppInstance>();
+
+                foreach (var item in lstImmediate.SelectedItems)
+                {
+                    var lstItem = (ListViewItem)item;
+                    items.Add(GetAppInstance(lstItem));
+                }
+
+                var result = _service.Add(items);
+
+                if (!string.IsNullOrEmpty(result))
+                {
+                    MessageBox.Show(result, "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+
+                populateCache();
+            }
+            catch (Exception err)
+            {
+                MessageBox.Show(err.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
     }

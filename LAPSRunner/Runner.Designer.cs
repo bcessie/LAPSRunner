@@ -42,25 +42,29 @@ namespace LAPSRunner
             imColInstanceCount = new ColumnHeader();
             imColPath = new ColumnHeader();
             panel2 = new Panel();
-            btnRunImmediate = new Button();
+            btnRunSelImmediate = new Button();
+            btnRunAllImmediate = new Button();
             removeImmediate = new Button();
             groupBox2 = new GroupBox();
             panel3 = new Panel();
-            btnRunCache = new Button();
+            btnRunSelCache = new Button();
+            btnRunAllCache = new Button();
             removeCache = new Button();
             lstCache = new ListView();
             caColId = new ColumnHeader();
             caColName = new ColumnHeader();
             caColInstanceCount = new ColumnHeader();
             caColPath = new ColumnHeader();
-            save = new Button();
-            shift = new Button();
+            btnSave = new Button();
+            btnShift = new Button();
             runnerIcon = new NotifyIcon(components);
             contextMenuStrip1 = new ContextMenuStrip(components);
             miRestore = new ToolStripMenuItem();
             miExit = new ToolStripMenuItem();
             panel1 = new Panel();
             panel4 = new Panel();
+            btnSelSave = new Button();
+            btnSelShift = new Button();
             splitContainer1 = new SplitContainer();
             toolTip1 = new ToolTip(components);
             groupBox1.SuspendLayout();
@@ -141,27 +145,38 @@ namespace LAPSRunner
             // panel2
             // 
             panel2.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            panel2.Controls.Add(btnRunImmediate);
+            panel2.Controls.Add(btnRunSelImmediate);
+            panel2.Controls.Add(btnRunAllImmediate);
             panel2.Controls.Add(removeImmediate);
-            panel2.Location = new Point(369, 13);
+            panel2.Location = new Point(334, 13);
             panel2.Name = "panel2";
-            panel2.Size = new Size(117, 29);
+            panel2.Size = new Size(152, 29);
             panel2.TabIndex = 10;
             // 
-            // btnRunImmediate
+            // btnRunSelImmediate
             // 
-            btnRunImmediate.Location = new Point(3, 3);
-            btnRunImmediate.Name = "btnRunImmediate";
-            btnRunImmediate.Size = new Size(75, 23);
-            btnRunImmediate.TabIndex = 9;
-            btnRunImmediate.Text = "Run";
-            toolTip1.SetToolTip(btnRunImmediate, "Run everything in the immediate list");
-            btnRunImmediate.UseVisualStyleBackColor = true;
-            btnRunImmediate.Click += btnRunImmediate_Click;
+            btnRunSelImmediate.Location = new Point(3, 3);
+            btnRunSelImmediate.Name = "btnRunSelImmediate";
+            btnRunSelImmediate.Size = new Size(48, 23);
+            btnRunSelImmediate.TabIndex = 10;
+            btnRunSelImmediate.Text = "Run";
+            btnRunSelImmediate.UseVisualStyleBackColor = true;
+            btnRunSelImmediate.Click += btnRunSelImmediate_Click;
+            // 
+            // btnRunAllImmediate
+            // 
+            btnRunAllImmediate.Location = new Point(57, 3);
+            btnRunAllImmediate.Name = "btnRunAllImmediate";
+            btnRunAllImmediate.Size = new Size(59, 23);
+            btnRunAllImmediate.TabIndex = 9;
+            btnRunAllImmediate.Text = "Run All";
+            toolTip1.SetToolTip(btnRunAllImmediate, "Run everything in the immediate list");
+            btnRunAllImmediate.UseVisualStyleBackColor = true;
+            btnRunAllImmediate.Click += btnRunAllImmediate_Click;
             // 
             // removeImmediate
             // 
-            removeImmediate.Location = new Point(84, 3);
+            removeImmediate.Location = new Point(122, 3);
             removeImmediate.Name = "removeImmediate";
             removeImmediate.Size = new Size(25, 23);
             removeImmediate.TabIndex = 6;
@@ -186,27 +201,38 @@ namespace LAPSRunner
             // panel3
             // 
             panel3.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            panel3.Controls.Add(btnRunCache);
+            panel3.Controls.Add(btnRunSelCache);
+            panel3.Controls.Add(btnRunAllCache);
             panel3.Controls.Add(removeCache);
-            panel3.Location = new Point(371, 13);
+            panel3.Location = new Point(354, 13);
             panel3.Name = "panel3";
-            panel3.Size = new Size(117, 29);
+            panel3.Size = new Size(134, 29);
             panel3.TabIndex = 11;
             // 
-            // btnRunCache
+            // btnRunSelCache
             // 
-            btnRunCache.Location = new Point(3, 3);
-            btnRunCache.Name = "btnRunCache";
-            btnRunCache.Size = new Size(75, 23);
-            btnRunCache.TabIndex = 6;
-            btnRunCache.Text = "Run";
-            toolTip1.SetToolTip(btnRunCache, "Run everything in the cached list");
-            btnRunCache.UseVisualStyleBackColor = true;
-            btnRunCache.Click += btnRun_Click;
+            btnRunSelCache.Location = new Point(0, 3);
+            btnRunSelCache.Name = "btnRunSelCache";
+            btnRunSelCache.Size = new Size(38, 23);
+            btnRunSelCache.TabIndex = 9;
+            btnRunSelCache.Text = "Run";
+            btnRunSelCache.UseVisualStyleBackColor = true;
+            btnRunSelCache.Click += btnRunSelCache_Click;
+            // 
+            // btnRunAllCache
+            // 
+            btnRunAllCache.Location = new Point(44, 3);
+            btnRunAllCache.Name = "btnRunAllCache";
+            btnRunAllCache.Size = new Size(55, 23);
+            btnRunAllCache.TabIndex = 6;
+            btnRunAllCache.Text = "Run All";
+            toolTip1.SetToolTip(btnRunAllCache, "Run everything in the cached list");
+            btnRunAllCache.UseVisualStyleBackColor = true;
+            btnRunAllCache.Click += btnRunAllCache_Click;
             // 
             // removeCache
             // 
-            removeCache.Location = new Point(84, 3);
+            removeCache.Location = new Point(105, 3);
             removeCache.Name = "removeCache";
             removeCache.Size = new Size(25, 23);
             removeCache.TabIndex = 8;
@@ -248,27 +274,27 @@ namespace LAPSRunner
             // 
             caColPath.Text = "Path";
             // 
-            // save
+            // btnSave
             // 
-            save.Location = new Point(67, 1);
-            save.Name = "save";
-            save.Size = new Size(58, 23);
-            save.TabIndex = 5;
-            save.Text = ">>";
-            toolTip1.SetToolTip(save, "Moved to cached list");
-            save.UseVisualStyleBackColor = true;
-            save.Click += save_Click;
+            btnSave.Location = new Point(109, 0);
+            btnSave.Name = "btnSave";
+            btnSave.Size = new Size(58, 23);
+            btnSave.TabIndex = 5;
+            btnSave.Text = ">>";
+            toolTip1.SetToolTip(btnSave, "Moved to cached list");
+            btnSave.UseVisualStyleBackColor = true;
+            btnSave.Click += save_Click;
             // 
-            // shift
+            // btnShift
             // 
-            shift.Location = new Point(5, 1);
-            shift.Name = "shift";
-            shift.Size = new Size(58, 23);
-            shift.TabIndex = 8;
-            shift.Text = "<<";
-            toolTip1.SetToolTip(shift, "Move to immediate list");
-            shift.UseVisualStyleBackColor = true;
-            shift.Click += shift_Click;
+            btnShift.Location = new Point(47, 0);
+            btnShift.Name = "btnShift";
+            btnShift.Size = new Size(58, 23);
+            btnShift.TabIndex = 8;
+            btnShift.Text = "<<";
+            toolTip1.SetToolTip(btnShift, "Move to immediate list");
+            btnShift.UseVisualStyleBackColor = true;
+            btnShift.Click += shift_Click;
             // 
             // runnerIcon
             // 
@@ -312,12 +338,34 @@ namespace LAPSRunner
             // panel4
             // 
             panel4.Anchor = AnchorStyles.Top;
-            panel4.Controls.Add(shift);
-            panel4.Controls.Add(save);
-            panel4.Location = new Point(431, 5);
+            panel4.Controls.Add(btnSelSave);
+            panel4.Controls.Add(btnSelShift);
+            panel4.Controls.Add(btnShift);
+            panel4.Controls.Add(btnSave);
+            panel4.Location = new Point(387, 5);
             panel4.Name = "panel4";
-            panel4.Size = new Size(128, 27);
+            panel4.Size = new Size(215, 27);
             panel4.TabIndex = 9;
+            // 
+            // btnSelSave
+            // 
+            btnSelSave.Location = new Point(173, 0);
+            btnSelSave.Name = "btnSelSave";
+            btnSelSave.Size = new Size(31, 23);
+            btnSelSave.TabIndex = 10;
+            btnSelSave.Text = ">";
+            btnSelSave.UseVisualStyleBackColor = true;
+            btnSelSave.Click += btnSelSave_Click;
+            // 
+            // btnSelShift
+            // 
+            btnSelShift.Location = new Point(10, 0);
+            btnSelShift.Name = "btnSelShift";
+            btnSelShift.Size = new Size(31, 23);
+            btnSelShift.TabIndex = 9;
+            btnSelShift.Text = "<";
+            btnSelShift.UseVisualStyleBackColor = true;
+            btnSelShift.Click += btnSelShift_Click;
             // 
             // splitContainer1
             // 
@@ -403,7 +451,7 @@ namespace LAPSRunner
         private ListBox cachedList;
         private Button removeImmediate;
         private Button removeCache;
-        private Button save;
+        private Button btnSave;
         private ListView lstImmediate;
         private ColumnHeader imColName;
         private ColumnHeader imColInstanceCount;
@@ -414,18 +462,22 @@ namespace LAPSRunner
         private ColumnHeader caColPath;
         private ColumnHeader imColId;
         private ColumnHeader caColId;
-        private Button btnRunCache;
-        private Button shift;
+        private Button btnRunAllCache;
+        private Button btnShift;
         private NotifyIcon runnerIcon;
         private ContextMenuStrip contextMenuStrip1;
         private ToolStripMenuItem miRestore;
         private ToolStripMenuItem miExit;
-        private Button btnRunImmediate;
+        private Button btnRunAllImmediate;
         private Panel panel1;
         private SplitContainer splitContainer1;
         private Panel panel2;
         private Panel panel3;
         private Panel panel4;
         private ToolTip toolTip1;
+        private Button btnRunSelImmediate;
+        private Button btnRunSelCache;
+        private Button btnSelSave;
+        private Button btnSelShift;
     }
 }
